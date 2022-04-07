@@ -1,0 +1,107 @@
+// const figlet = require("figlet");
+import figlet from "figlet";
+
+class FigletConsoleWebpackPlugin {
+  pluginName: string;
+  name: string;
+  content: string;
+  options: OptionsProps = {
+    font: "Standard",
+    mark: "#",
+    hideDev: false,
+  };
+  private markLen = 50;
+
+  constructor({
+    name,
+    content,
+    options,
+  }: IPluginOptionProps) {
+    this.pluginName = "FigletConsoleWebpackPlugin";
+    this.name = name;
+    // remove content "
+    this.content = content?.replace(/\"/g, "") || "";
+    this.options = {
+      ...options,
+    };
+  }
+
+  apply = compiler => {
+    if (
+      compiler.options.mode === "development" &&
+      this.options.hideDev
+    ) {
+      return;
+    }
+    this.output(compiler);
+  };
+
+  output = compiler => {
+    compiler.hooks.emit.tapAsync(
+      this.pluginName,
+      (compilation, callback) => {
+        let content: string =
+          compilation.assets["index.html"].source();
+
+        compilation.assets["index.html"] = {
+          source: () => {
+            const data = this.figletText();
+            const figletScript = this.formatext(data);
+            content = content.replace("</html>", "");
+            content = content + figletScript + "</html>";
+            return content;
+          },
+          size: () => content.length,
+        };
+        callback();
+      }
+    );
+  };
+
+  figletText = () => {
+    const text = figlet.textSync(this.name, {
+      font: this.options?.font,
+      horizontalLayout: "full",
+      verticalLayout: "full",
+    });
+    return encodeURI(text);
+  };
+
+  formatext = data => {
+    const markSpace: string = this.options.mark.repeat(
+      this.markLen
+    );
+    const len: number =
+      this.getCharCodeLength(markSpace) -
+      this.getCharCodeLength(this.content);
+    const space: string = " ".repeat(len / 2);
+    const outStr = `
+      <script>
+        (function(){
+          var text = decodeURI("${data}");
+          console.log("${markSpace}");
+          console.log(text);
+          console.log("${markSpace}");
+          console.log("${space}${this.content}${space}");
+          console.log("\\n");
+        })()
+      </script>
+    `;
+    return outStr;
+  };
+
+  getCharCodeLength = data => {
+    let length = 0;
+    Array.from(data).map((char: string | any) => {
+      if (char.charCodeAt(0) > 255) {
+        length += 2;
+      } else {
+        length++;
+      }
+    });
+
+    return length;
+  };
+}
+
+module.exports = FigletConsoleWebpackPlugin;

@@ -1,0 +1,10 @@
+*.md
+node_modules
+.vscode
+yarn.lock
+package.json
+.editorconfig
+.eslintignore
+.gitignore
+.prettierignore
+.DS_Store
