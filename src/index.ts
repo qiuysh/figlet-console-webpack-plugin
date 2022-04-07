@@ -7,7 +7,8 @@ class FigletConsoleWebpackPlugin {
   options: OptionsProps = {
     font: "Standard",
     mark: "#",
-    color: "#333",
+    // TODO the color is not work
+    color: "#333", 
     prodOnly: false,
     markMaxLength: 50,
   };

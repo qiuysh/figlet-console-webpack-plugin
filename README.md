@@ -5,7 +5,7 @@ A application version output in the console with figlet + webpack plugin
 
 ### Install
 
-Use npm or yarn install this webpack plugin
+Use npm or yarn install this webpack plugin, but it's not yet published.
 
 ```js
  npm install figlet-console-webpack-plugin --save-dev 
@@ -15,6 +15,9 @@ Use npm or yarn install this webpack plugin
 ### Usage
 
 Example
+
+Set this in the webpack config file
+
 ```js
 
 new FigletConsoleWebpackPlugin({
@@ -42,6 +45,3 @@ That should print out:
 ```
 
 
-### Reference
-
-https://github.com/patorjk/figlet.js
