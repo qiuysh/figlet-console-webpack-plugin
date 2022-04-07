@@ -1,4 +1,3 @@
-// const figlet = require("figlet");
 import figlet from "figlet";
 
 class FigletConsoleWebpackPlugin {
@@ -45,10 +44,11 @@ class FigletConsoleWebpackPlugin {
 
         compilation.assets["index.html"] = {
           source: () => {
-            const data = this.figletText();
-            const figletScript = this.formatext(data);
-            content = content.replace("</html>", "");
-            content = content + figletScript + "</html>";
+            const data: string = this.figletText();
+            const figletStr: string = this.formatext(data);
+            const markStr: string = "</html>";
+            content = content.replace(markStr, "");
+            content = content.concat(figletStr).concat(markStr);
             return content;
           },
           size: () => content.length,
