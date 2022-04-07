@@ -7,9 +7,10 @@ class FigletConsoleWebpackPlugin {
   options: OptionsProps = {
     font: "Standard",
     mark: "#",
-    hideDev: false,
+    color: "#333",
+    prodOnly: false,
+    markMaxLength: 50,
   };
-  private markLen = 50;
 
   constructor({
     name,
@@ -28,7 +29,7 @@ class FigletConsoleWebpackPlugin {
   apply = compiler => {
     if (
       compiler.options.mode === "development" &&
-      this.options.hideDev
+      this.options.prodOnly
     ) {
       return;
     }
@@ -69,7 +70,7 @@ class FigletConsoleWebpackPlugin {
 
   formatext = data => {
     const markSpace: string = this.options.mark.repeat(
-      this.markLen
+      this.options.markMaxLength
     );
     const len: number =
       this.getCharCodeLength(markSpace) -

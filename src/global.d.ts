@@ -1,8 +1,9 @@
 interface OptionsProps {
   font: string;
-  color?: string;
+  color: string;
   mark: string;
-  hideDev: boolean;
+  prodOnly: boolean;
+  markMaxLength: number;
 }
 
 interface IPluginOptionProps {
