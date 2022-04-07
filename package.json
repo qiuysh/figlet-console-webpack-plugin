@@ -11,7 +11,6 @@
   "author": "wulin",
   "license": "MIT",
   "scripts": {
-    "prepare": "husky install",
     "build": " rm -rf dist && tsc",
     "publish": "npm publish",
     "unpublish": "npm unpublish --force figlet-console-webpack-plugin",
