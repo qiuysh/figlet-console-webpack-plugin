@@ -15,8 +15,7 @@
     "publish": "npm publish",
     "unpublish": "npm unpublish --force figlet-console-webpack-plugin",
     "release": "standard-version -r 1.0.0-alpha",
-    "eslint": "eslint './src/*' --fix",
-    "lint": "lint-staged"
+    "eslint": "eslint './src/*' --fix"
   },
   "bugs": {
     "url": "https://github.com/qiuysh/figlet-console-webpack-plugin/issues"
