@@ -1,11 +1,11 @@
 ## figlet-console-webpack-plugin
 
-A application version output in the console with figlet + webpack plugin
+A application version output in the browser console with figlet
 
 
 ### Install
 
-Use npm or yarn install this webpack plugin, but it's not yet published.
+Use npm or yarn install this webpack plugin.
 
 ```js
  npm install figlet-console-webpack-plugin --save-dev 
@@ -45,3 +45,25 @@ That should print out:
 ```
 
 
+### Options
+
+The options object has several parameters which you can set:
+
+##### font 
+
+Only support: 'Ghost' and 'Standard', default value: 'Standard'.
+
+
+##### mark
+
+You can set a string, default value: '#'
+
+
+##### prodOnly
+
+You can set a boolean, default value: false, if you set true, that only print out in production environment
+
+
+##### markMaxLength
+
+You can set a number, default value: 50, this needs to be adjusted according to name with figlet
