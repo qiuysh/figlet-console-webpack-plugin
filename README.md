@@ -47,23 +47,25 @@ That should print out:
 
 ### Options
 
-The options object has several parameters which you can set:
 
 ##### font 
 
-Only support: 'Ghost' and 'Standard', default value: 'Standard'.
+You can set a string, default value: 'Standard'.
+Only support: 'Ghost' and 'Standard'.
 
 
 ##### mark
 
-You can set a string, default value: '#'
+You can set a string, default value: '#'.
 
 
 ##### prodOnly
 
-You can set a boolean, default value: false, if you set true, that only print out in production environment
+You can set a boolean, default value: false.
+f you set true, that only print out in production environment.
 
 
 ##### markMaxLength
 
-You can set a number, default value: 50, this needs to be adjusted according to name with figlet
+You can set a number, default value: 50.
+This needs to be adjusted according to name with figlet.
