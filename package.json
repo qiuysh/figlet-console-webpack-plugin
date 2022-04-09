@@ -17,6 +17,10 @@
     "release": "standard-version -r 1.0.0-alpha",
     "eslint": "eslint './src/*' --fix"
   },
+  "files": [
+    "dist",
+    "package.json"
+  ],
   "bugs": {
     "url": "https://github.com/qiuysh/figlet-console-webpack-plugin/issues"
   },
