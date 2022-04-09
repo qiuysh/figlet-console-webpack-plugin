@@ -1,28 +1,34 @@
 import figlet from "figlet";
+import {
+  FigletConsoleOptionsProps,
+  FigletConsoleWebpackPluginProps,
+} from "./typings";
+
+const DEFAULT_OPTIONS: FigletConsoleOptionsProps = {
+  font: "Standard",
+  mark: "#",
+  // TODO the color is not work
+  color: "#333",
+  prodOnly: false,
+  markMaxLength: 50,
+};
 
 class FigletConsoleWebpackPlugin {
   pluginName: string;
   name: string;
   content: string;
-  options: OptionsProps = {
-    font: "Standard",
-    mark: "#",
-    // TODO the color is not work
-    color: "#333", 
-    prodOnly: false,
-    markMaxLength: 50,
-  };
-
+  options: FigletConsoleOptionsProps;
   constructor({
     name,
     content,
     options,
-  }: IPluginOptionProps) {
+  }: FigletConsoleWebpackPluginProps) {
     this.pluginName = "FigletConsoleWebpackPlugin";
     this.name = name;
     // remove content "
     this.content = content?.replace(/\"/g, "") || "";
     this.options = {
+      ...DEFAULT_OPTIONS,
       ...options,
     };
   }
@@ -30,7 +36,7 @@ class FigletConsoleWebpackPlugin {
   apply = compiler => {
     if (
       compiler.options.mode === "development" &&
-      this.options.prodOnly
+      this.options?.prodOnly
     ) {
       return;
     }
@@ -48,9 +54,11 @@ class FigletConsoleWebpackPlugin {
           source: () => {
             const data: string = this.figletText();
             const figletStr: string = this.formatext(data);
-            const markStr: string = "</html>";
+            const markStr = "</html>";
             content = content.replace(markStr, "");
-            content = content.concat(figletStr).concat(markStr);
+            content = content
+              .concat(figletStr)
+              .concat(markStr);
             return content;
           },
           size: () => content.length,
@@ -62,7 +70,7 @@ class FigletConsoleWebpackPlugin {
 
   figletText = () => {
     const text = figlet.textSync(this.name, {
-      font: this.options?.font,
+      font: this.options.font,
       horizontalLayout: "full",
       verticalLayout: "full",
     });
@@ -70,7 +78,7 @@ class FigletConsoleWebpackPlugin {
   };
 
   formatext = data => {
-    const markSpace: string = this.options.mark.repeat(
+    const markSpace: string = this.options.mark?.repeat(
       this.options.markMaxLength
     );
     const len: number =
@@ -106,4 +114,4 @@ class FigletConsoleWebpackPlugin {
   };
 }
 
-module.exports = FigletConsoleWebpackPlugin;
+export = FigletConsoleWebpackPlugin;

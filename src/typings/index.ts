@@ -1,4 +1,4 @@
-interface OptionsProps {
+export interface FigletConsoleOptionsProps {
   font: string;
   color: string;
   mark: string;
@@ -6,8 +6,8 @@ interface OptionsProps {
   markMaxLength: number;
 }
 
-interface IPluginOptionProps {
+export interface FigletConsoleWebpackPluginProps {
   name: string;
   content?: string;
-  options: OptionsProps;
+  options?: FigletConsoleOptionsProps;
 }

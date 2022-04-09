@@ -15,9 +15,9 @@
     "baseUrl": "./",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "typeRoots": ["./node_modules/@types"],
+    "typeRoots": ["./node_modules/@types", "./scr/typings"],
     "types": ["node"]
   },
-  "include": ["**/*.ts"],
+  "include": ["./src/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
