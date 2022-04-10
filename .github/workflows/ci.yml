@@ -1,0 +1,31 @@
+name: CI workflow
+
+on: [push, pull_request]
+
+jobs:
+  lint: 
+    name: code style lint
+    runs-on: ubuntu-latest
+    steps:
+
+      # checkout new code
+      - name: checkout
+        uses: actions/checkout@v2
+
+      # install node 
+      - name: use nodejs
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+
+      - name: use yarn
+        run: npm install -g yarn
+
+      - name: install dependencies
+        run: yarn
+
+      - name: eslint
+        run: yarn run lint:fix
+      
+      - name: prettier
+        run: yarn run prettier
