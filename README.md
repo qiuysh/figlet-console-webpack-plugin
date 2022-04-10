@@ -62,7 +62,7 @@ You can set a string, default value: '#'.
 ##### prodOnly
 
 You can set a boolean, default value: false.
-f you set true, that only print out in production environment.
+If you set true, that only print out in production environment.
 
 
 ##### markMaxLength
