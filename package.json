@@ -15,7 +15,7 @@
     "publish": "npm publish",
     "unpublish": "npm unpublish figlet-console-webpack-plugin@1.0.0-alpha --force ",
     "release": "standard-version -r 1.0.1-alpha",
-    "eslint": "eslint './src/*' --fix"
+    "lint:fix": "eslint './src/*' --fix"
   },
   "files": [
     "dist",
