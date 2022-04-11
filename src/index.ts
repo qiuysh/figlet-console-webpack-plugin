@@ -47,15 +47,18 @@ class FigletConsoleWebpackPlugin {
     compiler.hooks.emit.tapAsync(
       this.pluginName,
       (compilation, callback) => {
-        let content: string =
+        let content: string  =
           compilation.assets["index.html"].source();
-
+        
+        if (typeof content === "object" && Buffer.isBuffer(content)) {
+          content = Buffer.from(content).toString();
+        }
         compilation.assets["index.html"] = {
           source: () => {
             const data: string = this.figletText();
             const figletStr: string = this.formatext(data);
             const markStr = "</html>";
-            content = content.replace(markStr, "");
+            content = content?.replace(markStr, "");
             content = content
               .concat(figletStr)
               .concat(markStr);
@@ -73,6 +76,7 @@ class FigletConsoleWebpackPlugin {
       font: this.options.font,
       horizontalLayout: "full",
       verticalLayout: "full",
+      whitespaceBreak: false
     });
     return encodeURI(text);
   };
