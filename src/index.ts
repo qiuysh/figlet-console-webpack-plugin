@@ -46,7 +46,7 @@ class FigletConsoleWebpackPlugin {
       this.pluginName,
       (compilation, callback) => {
         const assetsIndexName = "index.html";
-        const data: string = this.outputFiglet();
+        const data: string = this.generateFiglet();
         const figletStr: string = this.formatPrint(data);
 
         let assetSource: string =
@@ -79,7 +79,7 @@ class FigletConsoleWebpackPlugin {
     );
   };
 
-  outputFiglet = () => {
+  generateFiglet = () => {
     const defaultOption = {
       font: this.options?.font,
       horizontalLayout: "full",
