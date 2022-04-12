@@ -7,7 +7,6 @@ import {
 const DEFAULT_OPTIONS: FigletConsoleOptionsProps = {
   font: "Standard",
   mark: "#",
-  // TODO the color is not work
   color: "#333",
   prodOnly: false,
   markMaxLength: 50,
@@ -25,7 +24,7 @@ class FigletConsoleWebpackPlugin {
   }: FigletConsoleWebpackPluginProps) {
     this.pluginName = "FigletConsoleWebpackPlugin";
     this.name = name;
-    // remove content "
+    // TODO remove content "
     this.content = content?.replace(/\"/g, "") || "";
     this.options = {
       ...DEFAULT_OPTIONS,
@@ -34,86 +33,105 @@ class FigletConsoleWebpackPlugin {
   }
 
   apply = compiler => {
-    if (
-      compiler.options.mode === "development" &&
-      this.options?.prodOnly
-    ) {
+    const {
+      options: { mode },
+      hooks,
+    } = compiler;
+    const { prodOnly } = this.options;
+    // development env and  prodOnly
+    if (mode === "development" && prodOnly) {
       return;
     }
-    this.output(compiler);
-  };
-
-  output = compiler => {
-    compiler.hooks.emit.tapAsync(
+    hooks.emit.tapAsync(
       this.pluginName,
       (compilation, callback) => {
-        let content: string  =
-          compilation.assets["index.html"].source();
-        
-        if (typeof content === "object" && Buffer.isBuffer(content)) {
-          content = Buffer.from(content).toString();
+        try {
+          const assetsIndexName = "index.html";
+          const data: string = this.outputFiglet();
+          const figletStr: string = this.formatPrint(data);
+
+          let assetSource: string =
+            compilation.assets[assetsIndexName].source();
+
+          if (
+            typeof assetSource === "object" &&
+            Buffer.isBuffer(assetSource)
+          ) {
+            assetSource =
+              Buffer.from(assetSource).toString();
+          }
+
+          compilation.assets[assetsIndexName] = {
+            source: () => {
+              const replaceMarkStr = "</html>";
+              assetSource = assetSource?.replace(
+                replaceMarkStr,
+                ""
+              );
+              assetSource = assetSource
+                .concat(figletStr)
+                .concat(replaceMarkStr);
+
+              return assetSource;
+            },
+            size: () => assetSource.length,
+          };
+          callback();
+        } catch (error) {
+          throw new Error(error);
         }
-        compilation.assets["index.html"] = {
-          source: () => {
-            const data: string = this.figletText();
-            const figletStr: string = this.formatext(data);
-            const markStr = "</html>";
-            content = content?.replace(markStr, "");
-            content = content
-              .concat(figletStr)
-              .concat(markStr);
-            return content;
-          },
-          size: () => content.length,
-        };
-        callback();
       }
     );
   };
 
-  figletText = () => {
-    const text = figlet.textSync(this.name, {
-      font: this.options.font,
+  outputFiglet = () => {
+    const defaultOption = {
+      font: this.options?.font,
       horizontalLayout: "full",
       verticalLayout: "full",
-      whitespaceBreak: false
-    });
-    return encodeURI(text);
+    };
+    const text = figlet.textSync(this.name, defaultOption);
+    return encodeURIComponent(text);
   };
 
-  formatext = data => {
-    const markSpace: string = this.options.mark?.repeat(
-      this.options.markMaxLength
+  formatPrint = data => {
+    const { mark, markMaxLength } = this.options;
+    const markSpace: string = mark?.repeat(markMaxLength);
+    // Get mark width, we can set mark width equal figlet width
+    const markSpaceLen: number =
+      this.getCharCodeLength(markSpace);
+    // content width
+    const contentLen: number = this.getCharCodeLength(
+      this.content
     );
-    const len: number =
-      this.getCharCodeLength(markSpace) -
-      this.getCharCodeLength(this.content);
-    const space: string = " ".repeat(len / 2);
-    const outStr = `
+    const halfRange: number =
+      (markSpaceLen - contentLen) / 2;
+    const spaceStr: string = " ".repeat(halfRange);
+    // TODO options color is not work
+    const outputStr = `
       <script>
-        (function(){
-          var text = decodeURI("${data}");
+        (function() {
+          var text = decodeURIComponent("${data}");
           console.log("${markSpace}");
           console.log(text);
           console.log("${markSpace}");
-          console.log("${space}${this.content}${space}");
+          console.log("${spaceStr}${this.content}${spaceStr}");
           console.log("\\n");
         })()
       </script>
     `;
-    return outStr;
+    return outputStr;
   };
 
   getCharCodeLength = data => {
     let length = 0;
-    Array.from(data).map((char: string | any) => {
+    Array.from(data).map((char: any) => {
       if (char.charCodeAt(0) > 255) {
         length += 2;
       } else {
         length++;
       }
     });
-
     return length;
   };
 }
