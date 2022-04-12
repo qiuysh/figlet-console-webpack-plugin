@@ -1,4 +1,16 @@
+[![github-ci][github-ci-img]][github-ci-url] [![NPM downloads][download-img]][download-url] [![NPM version][npm-version]][npm-version-url]
+
+[github-ci-img]:https://img.shields.io/github/workflow/status/qiuysh/figlet-console-webpack-plugin/CI%20workflow?logo=github&style=flat
+[github-ci-url]:https://img.shields.io/github/workflow/status/qiuysh/figlet-console-webpack-plugin/CI%20workflow
+[download-img]: https://img.shields.io/npm/dm/figlet-console-webpack-plugin?style=flat
+[download-url]: https://img.shields.io/npm/dm/figlet-console-webpack-plugin
+[npm-version]: https://img.shields.io/npm/v/figlet-console-webpack-plugin?style=flat
+[npm-version-url]: https://img.shields.io/npm/v/figlet-console-webpack-plugin
+
+
 ## figlet-console-webpack-plugin
+
+### Introduction
 
 A application version output in the browser console with figlet
 

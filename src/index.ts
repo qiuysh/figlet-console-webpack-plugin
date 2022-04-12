@@ -45,46 +45,41 @@ class FigletConsoleWebpackPlugin {
     hooks.emit.tapAsync(
       this.pluginName,
       (compilation, callback) => {
-        try {
-          const assetsIndexName = "index.html";
-          const data: string = this.outputFiglet();
-          const figletStr: string = this.formatPrint(data);
+        const assetsIndexName = "index.html";
+        const data: string = this.generateFiglet();
+        const figletStr: string = this.formatPrint(data);
 
-          let assetSource: string =
-            compilation.assets[assetsIndexName].source();
+        let assetSource: string =
+          compilation.assets[assetsIndexName].source();
 
-          if (
-            typeof assetSource === "object" &&
-            Buffer.isBuffer(assetSource)
-          ) {
-            assetSource =
-              Buffer.from(assetSource).toString();
-          }
-
-          compilation.assets[assetsIndexName] = {
-            source: () => {
-              const replaceMarkStr = "</html>";
-              assetSource = assetSource?.replace(
-                replaceMarkStr,
-                ""
-              );
-              assetSource = assetSource
-                .concat(figletStr)
-                .concat(replaceMarkStr);
-
-              return assetSource;
-            },
-            size: () => assetSource.length,
-          };
-          callback();
-        } catch (error) {
-          throw new Error(error);
+        if (
+          typeof assetSource === "object" &&
+          Buffer.isBuffer(assetSource)
+        ) {
+          assetSource = Buffer.from(assetSource).toString();
         }
+
+        compilation.assets[assetsIndexName] = {
+          source: () => {
+            const replaceMarkStr = "</html>";
+            assetSource = assetSource?.replace(
+              replaceMarkStr,
+              ""
+            );
+            assetSource = assetSource
+              .concat(figletStr)
+              .concat(replaceMarkStr);
+
+            return assetSource;
+          },
+          size: () => assetSource.length,
+        };
+        callback();
       }
     );
   };
 
-  outputFiglet = () => {
+  generateFiglet = () => {
     const defaultOption = {
       font: this.options?.font,
       horizontalLayout: "full",
