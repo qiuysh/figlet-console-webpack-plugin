@@ -19,8 +19,7 @@
     "prettier": "prettier './src/*' --write "
   },
   "files": [
-    "dist",
-    "package.json"
+    "dist"
   ],
   "bugs": {
     "url": "https://github.com/qiuysh/figlet-console-webpack-plugin/issues"
