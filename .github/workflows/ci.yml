@@ -17,6 +17,14 @@ jobs:
         with:
           node-version: "12"
 
+      - name: Load node_modules
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/package.json') }}
+
       - name: use yarn
         run: npm install -g yarn
 
