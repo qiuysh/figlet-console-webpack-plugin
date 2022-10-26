@@ -1,6 +1,6 @@
 {
   "name": "figlet-console-webpack-plugin",
-  "version": "1.0.1-alpha",
+  "version": "1.0.1",
   "description": "A application version output in the console with figlet + webpack plugin",
   "keywords": [
     "figlet",
@@ -14,7 +14,7 @@
     "build": " rm -rf dist && tsc",
     "publish": "npm publish",
     "unpublish": "npm unpublish figlet-console-webpack-plugin@1.0.0-alpha --force ",
-    "release": "standard-version -r 1.0.1-alpha",
+    "release": "standard-version -r 1.0.1",
     "lint:fix": "eslint './src/*' --fix --ext .ts",
     "prettier": "prettier './src/*' --write "
   },
