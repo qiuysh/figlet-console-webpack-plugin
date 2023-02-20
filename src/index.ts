@@ -90,7 +90,7 @@ class FigletConsoleWebpackPlugin {
   };
 
   formatPrint = data => {
-    const { mark, markMaxLength } = this.options;
+    const { mark, markMaxLength, color } = this.options;
     const markSpace: string = mark?.repeat(markMaxLength);
     // Get mark width, we can set mark width equal figlet width
     const markSpaceLen: number =
@@ -102,19 +102,33 @@ class FigletConsoleWebpackPlugin {
     const halfRange: number =
       (markSpaceLen - contentLen) / 2;
     const spaceStr: string = " ".repeat(halfRange);
-    // TODO options color is not work
+
+    let style;
+    if (Array.isArray(color)) {
+      style = [
+        `background: linear-gradient(to right, ${color.join(",")})`,
+        '-webkit-background-clip: text',
+        'color:transparent',
+      ].join(";")
+    } else {
+      style = [`color: ${color}`].join(";")
+    }
+
     const outputStr = `
       <script>
         (function() {
           var text = decodeURIComponent("${data}");
-          console.log("${markSpace}");
-          console.log(text);
-          console.log("${markSpace}");
-          console.log("${spaceStr}${this.content}${spaceStr}");
+          var styles = "${style}";
+          var colorPrefix ="%c";
+          console.log(colorPrefix + "${markSpace}", styles);
+          console.log(colorPrefix + text, styles);
+          console.log(colorPrefix + "${markSpace}", styles);
+          console.log(colorPrefix + "${spaceStr}${this.content}${spaceStr}", styles);
           console.log("\\n");
         })()
       </script>
     `;
+    
     return outputStr;
   };
 

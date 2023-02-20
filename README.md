@@ -71,6 +71,10 @@ Only support: 'Ghost' and 'Standard'.
 You can set a string, default value: '#'.
 
 
+#### color
+
+You can set a string, default value: '#333'.
+
 ##### prodOnly
 
 You can set a boolean, default value: false.
